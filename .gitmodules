@@ -1,0 +1,3 @@
+[submodule "server/ExamApp"]
+	path = server/ExamApp
+	url = https://github.com/Ermon1/ExamApp.git
