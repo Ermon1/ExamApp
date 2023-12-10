@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const questionSchema = new mongoose.Schema({
   examID: {
     type: mongoose.Schema.Types.ObjectId,
@@ -10,17 +8,25 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  correctAnswer: {
-    type: String,
-    required: true,
-  },
+  option: [
+    {
+      optionText: {
+        type: String,
+        required: true,
+      },
+      isCorrect: {
+        type: Boolean,
+        required: true,
+      },
+    },
+  ],
   grade: String,
   chapter: String,
   explanationForAnswer: String,
-  questionCategoryID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "QuestionCategory",
+  categoryName: {
+    type: String,
     required: true,
+    enum: ["Cognitive", "easy", "medium", "hard", "memory"],
   },
   estimatedMinute: Number,
   imageForQuestion: {
@@ -31,7 +37,6 @@ const questionSchema = new mongoose.Schema({
       type: String,
     },
   },
-
   imageForSolution: {
     public_id: {
       type: String,
@@ -42,9 +47,20 @@ const questionSchema = new mongoose.Schema({
       required: true,
     },
   },
-  year: Number,
+  year: {
+    Number,
+    required: true,
+  },
+  month: {
+    type: String,
+    required: true,
+  },
+  Attempted: {
+    type: Boolean,
+    required: true,
+  },
+  estimatedMinute: {
+    type: Number,
+    required:true
+  }
 });
-
-const Question = mongoose.model("Question", questionSchema);
-
-module.exports = Question;

@@ -1,12 +1,27 @@
 const express = require("express");
 const router = express.Router();
-const questionCategoryController = require("../controllers/questionCategoryController");
+const questionCategoryController = require("../Controller/questionCatagoryController");
 
 router
-  .get("/", questionCategoryController.getAllQuestionCategories)
-  .get("/:id", questionCategoryController.getOneQuestionCategory)
-  .post("/", questionCategoryController.createQuestionCategory)
-  .put("/:id", questionCategoryController.updateQuestionCategory)
-  .delete("/:id", questionCategoryController.deleteQuestionCategory);
+  .get(
+    "/getallquestioncategory",
+    questionCategoryController.getAllQuestionCategories
+  )
+  .get(
+    "/getonequestioncategory/:id",
+    questionCategoryController.getOneQuestionCategory
+  )
+  .post(
+    "/createquestioncategory",
+    questionCategoryController.createQuestionCategory
+  )
+  .put(
+    "/updatequestioncategory/:id",
+    questionCategoryController.updateQuestionCategory
+  )
+  .delete(
+    "/deletequestioncategory/:id",
+    questionCategoryController.deleteQuestionCategory
+  );
 
 module.exports = router;
