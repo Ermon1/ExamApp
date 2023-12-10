@@ -23,8 +23,25 @@ const questionSchema = new mongoose.Schema({
     required: true,
   },
   estimatedMinute: Number,
-  imageForQuestion: String,
-  imageForSolution: String,
+  imageForQuestion: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
+  },
+
+  imageForSolution: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
   year: Number,
 });
 

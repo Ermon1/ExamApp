@@ -1,5 +1,5 @@
 const Question = require("../models/question");
-
+const cloudinary = require("../cloudinary");
 const questionController = {
   createQuestion: async (req, res) => {
     try {
@@ -16,8 +16,18 @@ const questionController = {
         imageForSolution,
         year,
       } = req.body;
+      let result2;
+      let result1;
+      let image;
 
-      // Validate the required data
+      if (imageForQuestion) {
+        result1 = await cloudinary.uploader.upload(imageForQuestion);
+      }
+
+      if (imageForSolution) {
+        result2 = await cloudinary.uploader.upload(imageForSolution);
+      }
+
       if (!examID || !questionText || !correctAnswer || !questionCategoryID) {
         return res
           .status(400)
@@ -33,8 +43,14 @@ const questionController = {
         explanationForAnswer,
         questionCategoryID,
         estimatedMinute,
-        imageForQuestion,
-        imageForSolution,
+        imageForQuestion: {
+          public_id: result1?.public_id || "",
+          url: result1?.secure_url || "",
+        },
+        imageForSolution: {
+          public_id: result2?.public_id || "",
+          url: result2?.secure_url || "",
+        },
         year,
       });
 

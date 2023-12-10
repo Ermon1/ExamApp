@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const questionCategorySchema = new mongoose.Schema({
-  questionCategoryID: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
   categoryName: {
     type: String,
     required: true,

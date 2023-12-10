@@ -9,11 +9,9 @@ const examController = {
         description,
         givenTime,
         categoryID,
-        thumbnail,
         attempted,
       } = req.body;
 
-     
       if (!subjectID || !title || !givenTime || !categoryID) {
         return res
           .status(400)
@@ -26,7 +24,6 @@ const examController = {
         description,
         givenTime,
         categoryID,
-        thumbnail,
         attempted,
       });
 
@@ -59,18 +56,11 @@ const examController = {
   updateExam: async (req, res) => {
     try {
       const { examID } = req.params;
-      const {
-        title,
-        description,
-        givenTime,
-        categoryID,
-        thumbnail,
-        attempted,
-      } = req.body;
+      const { title, description, givenTime, categoryID, attempted } = req.body;
 
       const updatedExam = await Exam.findByIdAndUpdate(
         examID,
-        { title, description, givenTime, categoryID, thumbnail, attempted },
+        { title, description, givenTime, categoryID, attempted },
         { new: true }
       );
 
