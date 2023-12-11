@@ -1,10 +1,23 @@
-const Question = require("../models/question");
+const Question = require("../model/quetion");
 const cloudinary = require("../cloudinary");
+const fs = require("fs").promises;
+
+// const changeImageToBase64 = async (imagePath) => {
+//   try {
+//     const data = await fs.readFile(imagePath);
+//     return data.toString("base64");
+//   } catch (error) {
+//     console.error("Error converting image to base64:", error);
+//     throw error;
+//   }
+// };
+
 const questionController = {
   createQuestion: async (req, res) => {
     try {
       const {
         examID,
+        code,
         questionText,
         correctAnswer,
         grade,
@@ -15,24 +28,11 @@ const questionController = {
         imageForQuestion,
         imageForSolution,
         year,
+        Attempted,
+        categoryName,
       } = req.body;
-      let result2;
-      let result1;
-      let image;
 
-      if (imageForQuestion) {
-        result1 = await cloudinary.uploader.upload(imageForQuestion);
-      }
-
-      if (imageForSolution) {
-        result2 = await cloudinary.uploader.upload(imageForSolution);
-      }
-
-      if (!examID || !questionText || !correctAnswer || !questionCategoryID) {
-        return res
-          .status(400)
-          .json({ success: false, error: "Missing required fields" });
-      }
+     
 
       const newQuestion = await Question.create({
         examID,
@@ -40,24 +40,21 @@ const questionController = {
         correctAnswer,
         grade,
         chapter,
+        code,
         explanationForAnswer,
         questionCategoryID,
         estimatedMinute,
-        imageForQuestion: {
-          public_id: result1?.public_id || "",
-          url: result1?.secure_url || "",
-        },
-        imageForSolution: {
-          public_id: result2?.public_id || "",
-          url: result2?.secure_url || "",
-        },
+        // imageForQuestion: imageForQuestionData,
+        // imageForSolution: imageForSolutionData,
         year,
+        Attempted,
+        categoryName,
       });
 
       res.status(201).json({ success: true, data: newQuestion });
     } catch (error) {
       console.error("Error creating question:", error);
-      res.status(500).json({ success: false, error: "Internal Server Error" });
+      res.status(500).json({ success: false, error: error });
     }
   },
 
@@ -66,6 +63,25 @@ const questionController = {
       const { questionID } = req.params;
 
       const question = await Question.findById(questionID);
+
+      if (!question) {
+        return res
+          .status(404)
+          .json({ success: false, error: "Question not found" });
+      }
+
+      res.status(200).json({ success: true, data: question });
+    } catch (error) {
+      console.error("Error retrieving question by ID:", error);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
+    }
+  },
+
+  getAllQuestion: async (req, res) => {
+    try {
+      const { questionID } = req.params;
+
+      const question = await Question.find();
 
       if (!question) {
         return res

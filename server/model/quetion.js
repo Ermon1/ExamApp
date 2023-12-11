@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 const questionSchema = new mongoose.Schema({
   examID: {
     type: mongoose.Schema.Types.ObjectId,
@@ -29,38 +31,39 @@ const questionSchema = new mongoose.Schema({
     enum: ["Cognitive", "easy", "medium", "hard", "memory"],
   },
   estimatedMinute: Number,
-  imageForQuestion: {
-    public_id: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
-  },
-  imageForSolution: {
-    public_id: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-  },
+  // imageForQuestion: {
+  //   public_id: {
+  //     type: String,
+  //   },
+  //   url: {
+  //     type: String,
+  //   },
+  // },
+  // imageForSolution: {
+  //   public_id: {
+  //     type: String,
+  //     required: true,
+  //   },
+  //   url: {
+  //     type: String,
+  //     required: true,
+  //   },
+  // },
   year: {
-    Number,
+    type: Number,
     required: true,
   },
-  month: {
-    type: String,
-    required: true,
-  },
+
   Attempted: {
     type: Boolean,
     required: true,
   },
   estimatedMinute: {
     type: Number,
-    required:true
-  }
+    required: true,
+  },
 });
+
+const Question = mongoose.model("Question", questionSchema);
+
+module.exports = Question;

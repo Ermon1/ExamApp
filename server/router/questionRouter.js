@@ -1,12 +1,13 @@
 const express = require("express");
-const questionController = require("../controllers/questionController");
+const questionController = require("../Controller/questionController");
 
 const router = express.Router();
 
 router
-  .post("/api/questions", questionController.createQuestion)
-  .put("/api/questions/:questionID", questionController.updateQuestion)
-  .delete("/api/questions/:questionID", questionController.deleteQuestion)
-  .get("/api/questions/:questionID", questionController.getQuestionById);
+  .post("/createquestion", questionController.createQuestion)
+  .put("/:questionID", questionController.updateQuestion)
+  .delete("/:questionID", questionController.deleteQuestion)
+  .get("/getallquestion", questionController.getAllQuestion)
+  .get("/:questionID", questionController.getQuestionById);
 
 module.exports = router;
